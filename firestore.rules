@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Tickets — solo usuarios autenticados pueden leer y escribir
+    match /tickets/{ticketId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Metadata (contador de tickets) — solo autenticados
+    match /metadata/{docId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Usuarios — permitir lectura a autenticados y escritura (por ahora)
+    match /users/{email} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Base de Conocimientos (FAQs) — permitir lectura y escritura a todos los autenticados
+    // La UI controlará que solo técnicos/admins puedan escribir.
+    match /faqs/{faqId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Configuración General del Sistema
+    match /config/{docId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
