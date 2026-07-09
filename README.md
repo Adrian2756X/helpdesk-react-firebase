@@ -1,16 +1,51 @@
-# React + Vite
+# 🚀 IT Helpdesk Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Un sistema moderno de mesa de ayuda (Helpdesk) construido con **React (Vite)** y **Firebase**. Diseñado para gestionar tickets de soporte técnico, administrar niveles de servicio (SLA) dinámicos y organizar tareas mediante flujos Kanban.
 
-Currently, two official plugins are available:
+## ✨ Características Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Gestión Integral de Tickets:** Creación, categorización (Hardware, Software, Redes, etc.) y asignación de tickets a técnicos.
+- **Tablero Kanban Interactivo:** Interfaz fluida con *Drag & Drop* para gestionar visualmente los estados de los tickets (Abierto, En Progreso, Resuelto).
+- **Dashboard de KPIs:** Analíticas en tiempo real para el equipo de staff (Tiempo Medio de Resolución, Tickets Vencidos, SLAs Incumplidos).
+- **Matriz SLA Dinámica:** Sistema avanzado que calcula automáticamente la fecha de vencimiento según el impacto, la urgencia y horarios laborales configurables.
+- **Base de Conocimientos (FAQ):** Portal de autoayuda para que los usuarios encuentren soluciones antes de levantar un ticket.
+- **Roles y Permisos:** Control de accesos basado en Roles (RBAC) diferenciando entre Usuario Final, Técnico de Soporte y Administrador.
+- **Exportación de Datos:** Capacidad de generar y descargar reportes CSV directamente desde el portal.
 
-## React Compiler
+## 🛠️ Stack Tecnológico
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React 18, Vite, CSS puro (Variables & CSS Grid/Flexbox).
+- **Backend / BaaS:** Firebase (Authentication, Firestore, Storage).
+- **Librerías Destacadas:** 
+  - `@hello-pangea/dnd` para la vista Kanban.
+  - Funcionalidad nativa de exportación a CSV.
 
-## Expanding the Oxlint configuration
+## 🚀 Instalación y Uso Local
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/TU_USUARIO/helpdesk-react-firebase.git
+   cd helpdesk-react-firebase
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Configurar Firebase:**
+   - Crea un proyecto en Firebase y habilita Authentication, Firestore y Storage.
+   - Crea un archivo `.env` en la raíz del proyecto y añade tus credenciales (usa `.env.example` como referencia).
+
+4. **Ejecutar en desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+## 📸 Capturas de Pantalla
+
+*(Recomendación: Añade aquí fotos de la vista Kanban, el formulario y el Dashboard para que tu proyecto luzca más atractivo)*
+
+## 📄 Licencia
+
+Este proyecto es de uso personal y educativo.
