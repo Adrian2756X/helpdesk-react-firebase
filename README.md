@@ -42,10 +42,6 @@ Un sistema moderno de mesa de ayuda (Helpdesk) construido con **React (Vite)** y
    npm run dev
    ```
 
-## 📸 Capturas de Pantalla
-
-*(Recomendación: Añade aquí fotos de la vista Kanban, el formulario y el Dashboard para que tu proyecto luzca más atractivo)*
-
 ## 📄 Licencia
 
 Este proyecto es de uso personal y educativo.
