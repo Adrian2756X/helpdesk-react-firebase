@@ -4,6 +4,8 @@ import {
   PieChart, Pie, Cell, Tooltip as RechartsTooltip, Legend,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer
 } from 'recharts';
+import { LineChart, FileText, Star } from 'lucide-react';
+
 
 const COLORS = ['#10b981', '#f59e0b', '#6366f1', '#ef4444', '#8b5cf6'];
 
@@ -45,19 +47,19 @@ export default function ReportsDashboard() {
     <main className="layout" style={{ maxWidth: '1200px', margin: '0 auto', display: 'block' }}>
       <div className="card" style={{ marginBottom: '1.5rem' }}>
         <div className="card-title">
-          <span className="card-title-icon">📈</span>
+          <span className="card-title-icon"><LineChart size={16} /></span>
           Métricas Principales
         </div>
         <div className="kpi-grid">
           <div className="kpi-card">
-            <div className="kpi-icon">📋</div>
+            <div className="kpi-icon"><FileText size={24} color="var(--primary)" /></div>
             <div className="kpi-info">
               <div className="kpi-label">Total Tickets Históricos</div>
               <div className="kpi-value">{tickets.length}</div>
             </div>
           </div>
           <div className="kpi-card kpi-success">
-            <div className="kpi-icon">⭐</div>
+            <div className="kpi-icon"><Star size={24} color="var(--warning)" /></div>
             <div className="kpi-info">
               <div className="kpi-label">Satisfacción (CSAT) Promedio</div>
               <div className="kpi-value">{csatPromedio} / 5.0</div>

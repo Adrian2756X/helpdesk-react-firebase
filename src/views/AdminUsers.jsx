@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useUsersController } from '../controllers/useUsersController';
+import { Users, Plus, Pencil, Trash2, X, AlertCircle, User } from 'lucide-react';
+
 
 export default function AdminUsers() {
   const { users, loadingUsers, crearUsuario, actualizarUsuario, eliminarUsuario } = useUsersController();
@@ -10,14 +12,14 @@ export default function AdminUsers() {
     username: '',
     password: '',
     rol: 'usuario',
-    avatar: '👤'
+    avatar: 'U'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const openNewUserModal = () => {
     setEditingUserEmail(null);
-    setFormData({ nombre: '', username: '', password: '', rol: 'usuario', avatar: '👤' });
+    setFormData({ nombre: '', username: '', password: '', rol: 'usuario', avatar: 'U' });
     setError('');
     setShowModal(true);
   };
@@ -29,7 +31,7 @@ export default function AdminUsers() {
       username: user.username || user.email.split('@')[0],
       password: '', // No se edita la contraseña desde aquí
       rol: user.rol || 'usuario',
-      avatar: user.avatar || '👤'
+      avatar: user.avatar || 'U'
     });
     setError('');
     setShowModal(true);
@@ -77,11 +79,11 @@ export default function AdminUsers() {
     <main className="layout" style={{ maxWidth: '1000px', margin: '0 auto', display: 'block' }}>
       <div className="section-header" style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div className="card-title" style={{ marginBottom: 0, borderBottom: 'none', padding: 0 }}>
-          <span className="card-title-icon">⚙️</span>
+          <span className="card-title-icon"><Users size={16} /></span>
           Gestión de Usuarios
         </div>
         <button className="btn-primary" onClick={openNewUserModal}>
-          + Nuevo Usuario
+          <Plus size={16} /> Nuevo Usuario
         </button>
       </div>
 
@@ -104,7 +106,11 @@ export default function AdminUsers() {
               <tbody>
                 {users.map(u => (
                   <tr key={u.email} style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td style={{ padding: '1rem', fontSize: '1.5rem' }}>{u.avatar}</td>
+                    <td style={{ padding: '1rem', fontSize: '1.2rem', fontWeight: 600, color: 'var(--primary)' }}>
+                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary-glow)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {u.avatar && u.avatar.length <= 2 ? u.avatar : <User size={16} />}
+                      </div>
+                    </td>
                     <td style={{ padding: '1rem', fontWeight: 'bold' }}>{u.nombre}</td>
                     <td style={{ padding: '1rem', color: 'var(--text-muted)' }}>@{u.username || u.email.split('@')[0]}</td>
                     <td style={{ padding: '1rem' }}>
@@ -115,10 +121,10 @@ export default function AdminUsers() {
                     <td style={{ padding: '1rem', color: 'var(--text-muted)' }}>{u.email}</td>
                     <td style={{ padding: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                       <button className="btn-icon" onClick={() => openEditUserModal(u)} title="Editar usuario" style={{ color: 'var(--text)' }}>
-                        ✏️
+                        <Pencil size={16} />
                       </button>
                       <button className="btn-icon" onClick={() => handleEliminar(u.email)} title="Eliminar acceso" style={{ color: 'var(--danger)' }}>
-                        🗑️
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>
@@ -134,7 +140,7 @@ export default function AdminUsers() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px' }}>
             <div className="modal-header">
               <h2>{editingUserEmail ? 'Editar Usuario' : 'Nuevo Usuario'}</h2>
-              <button className="btn-icon" onClick={() => setShowModal(false)}>✕</button>
+              <button className="btn-icon" onClick={() => setShowModal(false)}><X size={18} /></button>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -171,12 +177,12 @@ export default function AdminUsers() {
                     </select>
                   </div>
                   <div className="form-group" style={{ flex: 1 }}>
-                    <label className="form-label">Avatar (Emoji)</label>
-                    <input type="text" className="form-input" value={formData.avatar} onChange={e => setFormData({...formData, avatar: e.target.value})} />
+                    <label className="form-label">Avatar (Iniciales)</label>
+                    <input type="text" className="form-input" maxLength={2} value={formData.avatar} onChange={e => setFormData({...formData, avatar: e.target.value})} />
                   </div>
                 </div>
 
-                {error && <div style={{ color: 'var(--danger)', marginTop: '0.5rem' }}>⚠️ {error}</div>}
+                {error && <div style={{ color: 'var(--danger)', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}><AlertCircle size={14}/> {error}</div>}
 
                 <div className="modal-actions" style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
                   <button type="button" className="btn-secondary" onClick={() => setShowModal(false)} disabled={isSubmitting}>Cancelar</button>

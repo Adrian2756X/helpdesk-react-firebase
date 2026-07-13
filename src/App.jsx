@@ -19,6 +19,7 @@ import { useTicketController } from './controllers/useTicketController';
 import { useFilterController } from './controllers/useFilterController';
 import { useSettingsController } from './controllers/useSettingsController';
 
+import { Loader2 } from 'lucide-react';
 // ── Views ─────────────────────────────────────────────────────────────────────
 import LoginPage       from './views/LoginPage';
 import Header          from './views/Header';
@@ -42,17 +43,15 @@ export default function App() {
   // undefined = Firebase aún verificando sesión (splash screen)
   if (session === undefined) {
     return (
-      <div style={{
-        minHeight: '100vh', display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center', background: 'var(--bg)',
-        gap: '1rem',
-      }}>
-        <div style={{
-          width: '52px', height: '52px', borderRadius: '14px',
-          background: 'linear-gradient(135deg, var(--primary), var(--accent))',
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)', gap: '1rem' }}>
+        <div style={{ 
+          width: '60px', height: '60px', 
+          borderRadius: '16px', background: 'var(--primary)', 
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '1.6rem', animation: 'logo-pulse 1.5s ease-in-out infinite',
-        }}>🎯</div>
+          color: 'white'
+        }}>
+          <Loader2 className="lucide-spinner" style={{ animation: 'spin 2s linear infinite' }} size={32} />
+        </div>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Cargando sesión...</p>
       </div>
     );
@@ -83,7 +82,7 @@ function Portal({ session, onLogout }) {
   const rol = session.rol;
   const isStaff = rol === 'tecnico' || rol === 'admin';
   const [selectedTicketId, setSelectedTicketId] = useState(null);
-  const [activeTab, setActiveTab] = useState('tickets');
+  const [activeTab, setActiveTab] = useState(rol === 'usuario' ? 'nuevo_ticket' : 'tickets');
 
   // ── Controllers del portal ────────────────────────────────────────────────
   const { settings } = useSettingsController();
@@ -111,15 +110,16 @@ function Portal({ session, onLogout }) {
       {/* VIEW: Header — muestra info de sesión y botón de logout */}
       <Header session={session} onLogout={onLogout} activeTab={activeTab} onTabChange={setActiveTab} />
 
+      {activeTab === 'nuevo_ticket' && (rol === 'usuario' || rol === 'admin') && (
+        <main className="layout">
+          <TicketForm rol={rol} onCrearTicket={ticketCtrl.crearTicket} />
+        </main>
+      )}
+
       {activeTab === 'tickets' && (
-        <main className={`layout ${isStaff ? 'layout-full' : ''}`}>
+        <main className="layout">
           {/* VIEW: KpiDashboard — solo visible para técnicos/admin */}
           <KpiDashboard kpis={ticketCtrl.kpis} visible={isStaff} />
-
-          {/* VIEW: TicketForm — oculto para staff para dar espacio al Kanban */}
-          {!isStaff && (
-            <TicketForm rol={rol} onCrearTicket={ticketCtrl.crearTicket} />
-          )}
 
           {/* VIEW: TicketDirectory — recibe tickets ya filtrados */}
           <TicketDirectory

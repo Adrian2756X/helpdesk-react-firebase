@@ -6,6 +6,8 @@
  */
 import { useState, useRef, useEffect } from 'react';
 import { calcularTiempoAbierto, verificarSLA } from '../models/SLAService';
+import { X, Target, Folder, User, Monitor, Calendar, Clock, Paperclip, Settings as SettingsIcon, RotateCcw, MessageSquare, Star } from 'lucide-react';
+
 
 const TECNICOS = [
   'Sin asignar',
@@ -72,7 +74,7 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
             <div className="modal-ticket-id">{ticket.id}</div>
             <div className="modal-title">{ticket.asunto}</div>
           </div>
-          <button className="modal-close" onClick={onCerrar} title="Cerrar">✕</button>
+          <button className="modal-close" onClick={onCerrar} title="Cerrar"><X size={18} /></button>
         </div>
 
         {/* Badges de resumen */}
@@ -81,15 +83,15 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
           <span className={`badge badge-estado estado-${ticket.estado.replace(' ', '-')}`}>
             {ticket.estado}
           </span>
-          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
-            🎯 {ticket.prioridad}
+          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+            <Target size={12} /> {ticket.prioridad}
           </span>
-          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
-            📁 {ticket.categoria || 'General'} &gt; {ticket.subcategoria || 'Otros'}
+          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+            <Folder size={12} /> {ticket.categoria || 'General'} &gt; {ticket.subcategoria || 'Otros'}
           </span>
           {(rol === 'tecnico' || rol === 'admin') ? (
             <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
-              👤 
+              <User size={12} /> 
               <select
                 value={ticket.tecnico}
                 onChange={(e) => onAsignarTecnico(ticket.id, e.target.value)}
@@ -101,20 +103,20 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
               </select>
             </span>
           ) : (
-            <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
-              👤 {ticket.tecnico}
+            <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+              <User size={12} /> {ticket.tecnico}
             </span>
           )}
           {ticket.activo && ticket.activo !== 'Ninguno' && (
-            <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
-              💻 {ticket.activo}
+            <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+              <Monitor size={12} /> {ticket.activo}
             </span>
           )}
-          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
-            📅 {ticket.fecha}
+          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+            <Calendar size={12} /> {ticket.fecha}
           </span>
-          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}>
-            ⏱️ {calcularTiempoAbierto(ticket)}
+          <span className="badge" style={{ background: 'var(--surface-2)', color: 'var(--text-muted)', border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+            <Clock size={12} /> {calcularTiempoAbierto(ticket)}
           </span>
         </div>
 
@@ -144,8 +146,8 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
           {ticket.descripcion}
           {ticket.adjunto && (
             <div style={{ marginTop: '0.8rem' }}>
-              <a href={ticket.adjunto.url} target="_blank" rel="noreferrer" className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}>
-                📎 Ver adjunto ({ticket.adjunto.name})
+              <a href={ticket.adjunto.url} target="_blank" rel="noreferrer" className="btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none', width: 'auto' }}>
+                <Paperclip size={14} /> Ver adjunto ({ticket.adjunto.name})
               </a>
             </div>
           )}
@@ -154,12 +156,12 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
         {/* Detalles RFC (solo si aplica) */}
         {ticket.tipo === 'RFC' && (
           <div className="rfc-detail">
-            <div style={{ marginBottom: '0.4rem' }}>
-              <strong style={{ color: 'var(--warning)' }}>⚙️ Nivel de Impacto:</strong>{' '}
+            <div style={{ marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <strong style={{ color: 'var(--warning)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><SettingsIcon size={14} /> Nivel de Impacto:</strong>{' '}
               {ticket.impacto}
             </div>
-            <div>
-              <strong style={{ color: 'var(--warning)' }}>↩️ Plan de Rollback:</strong>{' '}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <strong style={{ color: 'var(--warning)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><RotateCcw size={14} /> Plan de Rollback:</strong>{' '}
               {ticket.rollback || 'No especificado'}
             </div>
           </div>
@@ -167,7 +169,7 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
 
         {/* Historial de actividad (Chat UI) */}
         <div className="activity-section">
-          <div className="activity-title">💬 Comentarios e Historial</div>
+          <div className="activity-title" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><MessageSquare size={16} /> Comentarios e Historial</div>
           <div className="activity-list" id="listaComentarios" ref={chatRef} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', padding: '1rem', background: 'var(--surface-2)', borderRadius: 'var(--radius)', maxHeight: '320px', overflowY: 'auto' }}>
             {ticket.comentarios.map((c, i) => (
               <div
@@ -185,14 +187,14 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
                   boxShadow: c.esSistema ? 'none' : 'var(--shadow)'
                 }}
               >
-                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: c.esSistema ? '0' : '0.3rem' }}>
-                  {c.esSistema ? '' : (c.autor ? `👤 ${c.autor} • ` : '👤 ')} {c.fecha}
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: c.esSistema ? '0' : '0.3rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                  {c.esSistema ? '' : (c.autor ? <><User size={10} /> {c.autor} • </> : <><User size={10} /> </>)} {c.fecha}
                 </div>
-                <div>{c.esSistema ? `⚙️ [SISTEMA] ${c.texto}` : c.texto}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', justifyContent: c.esSistema ? 'center' : 'flex-start' }}>{c.esSistema ? <><SettingsIcon size={12} /> [SISTEMA] {c.texto}</> : c.texto}</div>
                 {c.adjunto && (
                   <div style={{ marginTop: '0.4rem' }}>
                     <a href={c.adjunto.url} target="_blank" rel="noreferrer" style={{ color: 'var(--primary)', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                      📎 {c.adjunto.name}
+                      <Paperclip size={12} /> {c.adjunto.name}
                     </a>
                   </div>
                 )}
@@ -252,7 +254,7 @@ export default function TicketModal({ ticket, rol, session, onCerrar, onAgregarC
           )}
           {ticket.csat && (
              <div style={{ marginTop: '1rem', padding: '1rem', background: 'var(--success-bg)', color: 'var(--success)', borderRadius: 'var(--radius)', border: '1px solid rgba(16,185,129,0.3)' }}>
-               ⭐ Calificaste este servicio con <strong>{ticket.csat.rating} estrellas</strong>.<br/>
+               <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.3rem' }}><Star size={16} /> Calificaste este servicio con <strong>{ticket.csat.rating} estrellas</strong>.</div>
                {ticket.csat.feedback && <span style={{ fontSize: '0.9rem', opacity: 0.9 }}>"{ticket.csat.feedback}"</span>}
              </div>
           )}

@@ -5,11 +5,13 @@
  */
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import TicketItem from './TicketItem';
+import { CircleDot } from 'lucide-react';
+
 
 const COLUMNAS = [
-  { id: 'Abierto', titulo: 'Abierto', icon: '🟡' },
-  { id: 'En Progreso', titulo: 'En Progreso', icon: '🔵' },
-  { id: 'Resuelto', titulo: 'Resuelto', icon: '🟢' },
+  { id: 'Abierto', titulo: 'Abierto', iconColor: 'var(--warning)' },
+  { id: 'En Progreso', titulo: 'En Progreso', iconColor: 'var(--primary)' },
+  { id: 'Resuelto', titulo: 'Resuelto', iconColor: 'var(--success)' },
 ];
 
 export default function TicketKanban({
@@ -46,7 +48,7 @@ export default function TicketKanban({
           return (
             <div key={columna.id} className="kanban-col">
               <div className="kanban-col-header">
-                <span>{columna.icon} {columna.titulo}</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><CircleDot size={16} color={columna.iconColor} /> {columna.titulo}</span>
                 <span className="kanban-badge">{ticketsColumna.length}</span>
               </div>
 

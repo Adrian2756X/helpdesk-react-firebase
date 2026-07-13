@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Target, User, Lock, EyeOff, Eye, AlertCircle, CheckCircle, ArrowRight } from 'lucide-react';
+
 
 export default function LoginPage({ onLogin, error, loading, onRecuperarContrasena }) {
   const [username, setUsername] = useState('');
@@ -41,7 +43,9 @@ export default function LoginPage({ onLogin, error, loading, onRecuperarContrase
 
       <div className="login-card">
         <div className="login-header">
-          <div className="login-logo">🎯</div>
+          <div className="login-logo">
+            <Target size={32} />
+          </div>
           <h1 className="login-title">Portal de Soporte TI</h1>
           <p className="login-subtitle">Inicia sesión para acceder al sistema</p>
         </div>
@@ -61,7 +65,7 @@ export default function LoginPage({ onLogin, error, loading, onRecuperarContrase
                 required
                 disabled={loading}
               />
-              <span className="login-input-icon">👤</span>
+              <span className="login-input-icon"><User size={18} /></span>
             </div>
           </div>
 
@@ -96,7 +100,7 @@ export default function LoginPage({ onLogin, error, loading, onRecuperarContrase
                 required
                 disabled={loading}
               />
-              <span className="login-input-icon">🔒</span>
+              <span className="login-input-icon"><Lock size={18} /></span>
             </div>
             <button
               type="button"
@@ -107,13 +111,13 @@ export default function LoginPage({ onLogin, error, loading, onRecuperarContrase
                 cursor: 'pointer', padding: 0, marginTop: '0.2rem'
               }}
             >
-              {showPassword ? '🙈 Ocultar' : '👁️ Mostrar contraseña'}
+              {showPassword ? <><EyeOff size={14}/> Ocultar</> : <><Eye size={14}/> Mostrar contraseña</>}
             </button>
           </div>
 
           {error && (
-            <div className="login-error">
-              ⚠️ {error}
+            <div className="login-error" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <AlertCircle size={16} /> {error}
             </div>
           )}
 
@@ -129,7 +133,9 @@ export default function LoginPage({ onLogin, error, loading, onRecuperarContrase
                 Verificando...
               </>
             ) : (
-              '→ Iniciar sesión'
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                <ArrowRight size={18} /> Iniciar sesión
+              </span>
             )}
           </button>
         </form>
@@ -144,8 +150,8 @@ export default function LoginPage({ onLogin, error, loading, onRecuperarContrase
             </div>
             <div className="modal-body">
               {recoveryMessage ? (
-                <div style={{ padding: '1rem', background: 'var(--success-bg)', color: 'var(--success)', borderRadius: '8px', textAlign: 'center' }}>
-                  ✅ {recoveryMessage}
+                <div style={{ padding: '1rem', background: 'var(--success-bg)', color: 'var(--success)', borderRadius: '8px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                  <CheckCircle size={20} /> {recoveryMessage}
                 </div>
               ) : (
                 <form onSubmit={handleRecuperar} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -163,7 +169,9 @@ export default function LoginPage({ onLogin, error, loading, onRecuperarContrase
                     />
                   </div>
                   {recoveryError && (
-                    <div style={{ color: 'var(--danger)', fontSize: '0.85rem' }}>⚠️ {recoveryError}</div>
+                    <div style={{ color: 'var(--danger)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <AlertCircle size={14} /> {recoveryError}
+                    </div>
                   )}
                   <div className="modal-actions" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
                     <button type="submit" className="btn-primary" disabled={recoveryLoading}>

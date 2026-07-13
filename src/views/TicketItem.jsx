@@ -4,6 +4,8 @@
  * Importa verificarSLA del MODEL directamente (es una función pura, sin React).
  */
 import { verificarSLA, calcularTiempoAbierto } from '../models/SLAService';
+import { AlertTriangle, Clock, Target, Folder, User, Monitor, Calendar } from 'lucide-react';
+
 
 export default function TicketItem({ ticket, rol, onCambiarEstado, onAbrirModal, slaMatrix }) {
   const sla = verificarSLA(ticket, slaMatrix);
@@ -25,11 +27,11 @@ export default function TicketItem({ ticket, rol, onCambiarEstado, onAbrirModal,
             {ticket.estado}
           </span>
           {incumplioSLA && (
-            <span className="sla-badge">⚠️ SLA VENCIDO</span>
+            <span className="sla-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}><AlertTriangle size={12} /> SLA VENCIDO</span>
           )}
           {sla.estadoVisual === 'warning' && !incumplioSLA && (
-            <span className="badge" style={{ background: 'rgba(245, 158, 11, 0.1)', color: 'var(--warning)', border: '1px solid var(--warning)' }}>
-              ⏳ SLA en Riesgo
+            <span className="badge" style={{ background: 'rgba(245, 158, 11, 0.1)', color: 'var(--warning)', border: '1px solid var(--warning)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+              <Clock size={12} /> SLA en Riesgo
             </span>
           )}
         </div>
@@ -41,15 +43,15 @@ export default function TicketItem({ ticket, rol, onCambiarEstado, onAbrirModal,
 
       {/* Meta */}
       <div className="ticket-meta">
-        <span className="meta-item">🎯 <strong>{ticket.prioridad}</strong></span>
-        <span className="meta-item">📁 {ticket.categoria || 'General'} &gt; {ticket.subcategoria || 'Otros'}</span>
-        <span className="meta-item">👤 {ticket.tecnico}</span>
+        <span className="meta-item"><Target size={12} /> <strong>{ticket.prioridad}</strong></span>
+        <span className="meta-item"><Folder size={12} /> {ticket.categoria || 'General'} &gt; {ticket.subcategoria || 'Otros'}</span>
+        <span className="meta-item"><User size={12} /> {ticket.tecnico}</span>
         {ticket.activo && ticket.activo !== 'Ninguno' && (
-          <span className="meta-item">💻 {ticket.activo}</span>
+          <span className="meta-item"><Monitor size={12} /> {ticket.activo}</span>
         )}
-        <span className="meta-item">📅 {ticket.fecha}</span>
+        <span className="meta-item"><Calendar size={12} /> {ticket.fecha}</span>
         <span className="meta-item" style={{ color: colorSla, fontWeight: sla.estadoVisual !== 'ok' ? 'bold' : 'normal' }}>
-          ⏱️ {calcularTiempoAbierto(ticket)}
+          <Clock size={12} /> {calcularTiempoAbierto(ticket)}
         </span>
       </div>
 

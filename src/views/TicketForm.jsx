@@ -6,6 +6,8 @@
  */
 import { useState, useEffect } from 'react';
 import { useSettingsController } from '../controllers/useSettingsController';
+import { Ticket, Settings as SettingsIcon, Paperclip, Send } from 'lucide-react';
+
 
 const TECNICOS = [
   'Sin asignar',
@@ -86,7 +88,7 @@ export default function TicketForm({ rol, onCrearTicket }) {
     <section className="form-col">
       <div className="card">
         <div className="card-title">
-          <span className="card-title-icon">🎫</span>
+          <span className="card-title-icon"><Ticket size={16} /></span>
           Nuevo Ticket
         </div>
 
@@ -118,9 +120,9 @@ export default function TicketForm({ rol, onCrearTicket }) {
                 onChange={handleChange}
                 required
               >
-                <option value="Incidente">🔴 Incidente (Falla)</option>
-                <option value="Solicitud">🔵 Solicitud (Nuevo servicio)</option>
-                <option value="RFC">🟡 RFC (Request for Change)</option>
+                <option value="Incidente">Incidente (Falla)</option>
+                <option value="Solicitud">Solicitud (Nuevo servicio)</option>
+                <option value="RFC">RFC (Request for Change)</option>
               </select>
             </div>
 
@@ -134,9 +136,9 @@ export default function TicketForm({ rol, onCrearTicket }) {
                 onChange={handleChange}
                 required
               >
-                <option value="Baja">🟢 Baja</option>
-                <option value="Media">🟡 Media</option>
-                <option value="Alta">🔴 Alta</option>
+                <option value="Baja">Baja</option>
+                <option value="Media">Media</option>
+                <option value="Alta">Alta</option>
               </select>
             </div>
           </div>
@@ -197,7 +199,9 @@ export default function TicketForm({ rol, onCrearTicket }) {
           {/* Campos RFC — dinámicos según tipo */}
           {form.tipo === 'RFC' && (
             <div className="rfc-section">
-              <div className="rfc-title">⚙️ Evaluación del Cambio</div>
+              <div className="rfc-title" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <SettingsIcon size={14} /> Evaluación del Cambio
+              </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="impacto">Nivel de Impacto</label>
                 <select
@@ -274,7 +278,7 @@ export default function TicketForm({ rol, onCrearTicket }) {
               onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
               onMouseOut={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
             >
-              <span style={{ fontSize: '1.2rem' }}>📎</span>
+              <span style={{ display: 'flex', alignItems: 'center', color: 'var(--text-muted)' }}><Paperclip size={20} /></span>
               <span style={{ flex: 1, color: adjuntoFile ? 'var(--text)' : 'var(--text-muted)', fontSize: '0.9rem' }}>
                 {adjuntoFile ? adjuntoFile.name : 'Haz clic para seleccionar un archivo...'}
               </span>
@@ -288,7 +292,7 @@ export default function TicketForm({ rol, onCrearTicket }) {
           </div>
 
           <button type="submit" className="btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? 'Subiendo...' : '✨ Generar Ticket'}
+            {isSubmitting ? 'Subiendo...' : <><Send size={16} /> Generar Ticket</>}
           </button>
         </form>
       </div>

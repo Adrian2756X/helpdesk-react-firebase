@@ -6,8 +6,9 @@
  */
 import { useState } from 'react';
 import { useSettingsController } from '../controllers/useSettingsController';
-import TicketItem from './TicketItem';
+import { Folder, Download, Search, Clock, Flame, Inbox } from 'lucide-react';
 import TicketKanban from './TicketKanban';
+
 
 const TECNICOS = [
   'Todos',
@@ -30,8 +31,6 @@ export default function TicketDirectory({
 }) {
   const { settings } = useSettingsController();
   const slaMatrix = settings?.slaMatrix;
-  
-  const [viewMode, setViewMode] = useState('list'); // 'list' o 'kanban'
 
   return (
     <section className="list-col">
@@ -42,32 +41,16 @@ export default function TicketDirectory({
             className="card-title"
             style={{ marginBottom: 0, borderBottom: 'none', paddingBottom: 0 }}
           >
-            <span className="card-title-icon">📁</span>
+            <span className="card-title-icon"><Folder size={16} /></span>
             Directorio de Tickets
           </div>
           
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            {/* Toggle de vistas */}
-            <div className="view-toggle">
-              <button 
-                className={`btn-small ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={() => setViewMode('list')}
-                title="Vista de Lista"
-              >
-                🗂️ Lista
-              </button>
-              <button 
-                className={`btn-small ${viewMode === 'kanban' ? 'active' : ''}`}
-                onClick={() => setViewMode('kanban')}
-                title="Vista Kanban"
-              >
-                📋 Kanban
-              </button>
-            </div>
-
             {(rol === 'tecnico' || rol === 'admin') && (
               <button id="btnExportar" className="btn-secondary" onClick={onExportarCSV}>
-                📥 Exportar CSV
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Download size={14} /> Exportar CSV
+                </span>
               </button>
             )}
           </div>
@@ -76,7 +59,7 @@ export default function TicketDirectory({
         {/* Barra de filtros */}
         <div className="filters-bar">
           <div className="search-wrapper">
-            <span className="search-icon">🔍</span>
+            <span className="search-icon"><Search size={18} /></span>
             <input
               id="buscarAsunto"
               type="text"
@@ -121,42 +104,21 @@ export default function TicketDirectory({
               id="btnOrdenar"
               className={`btn-secondary${filtros.orden === 'prioridad' ? ' active' : ''}`}
               onClick={onToggleOrden}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
             >
-              {filtros.orden === 'recientes' ? '🕐 Más Recientes' : '🔥 Por Prioridad'}
+              {filtros.orden === 'recientes' ? <><Clock size={14}/> Más Recientes</> : <><Flame size={14}/> Por Prioridad</>}
             </button>
           </div>
         </div>
 
-        {/* Contenido (Lista o Kanban) */}
-        {viewMode === 'list' ? (
-          <div className="ticket-list">
-            {ticketsFiltrados.length === 0 ? (
-              <div className="ticket-empty">
-                <div className="ticket-empty-icon">🎉</div>
-                <p>No se encontraron tickets.</p>
-              </div>
-            ) : (
-              ticketsFiltrados.map((ticket) => (
-                <TicketItem
-                  key={ticket.id}
-                  ticket={ticket}
-                  rol={rol}
-                  onCambiarEstado={onCambiarEstado}
-                  onAbrirModal={onAbrirModal}
-                  slaMatrix={slaMatrix}
-                />
-              ))
-            )}
-          </div>
-        ) : (
-          <TicketKanban
-            tickets={ticketsFiltrados}
-            rol={rol}
-            onCambiarEstado={onCambiarEstado}
-            onAbrirModal={onAbrirModal}
-            slaMatrix={slaMatrix}
-          />
-        )}
+        {/* Contenido (Solo Kanban) */}
+        <TicketKanban
+          tickets={ticketsFiltrados}
+          rol={rol}
+          onCambiarEstado={onCambiarEstado}
+          onAbrirModal={onAbrirModal}
+          slaMatrix={slaMatrix}
+        />
       </div>
     </section>
   );

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useFaqController } from '../controllers/useFaqController';
+import { BookOpen, Plus, Search, Pencil, Trash2, X, ChevronUp, ChevronDown } from 'lucide-react';
+
 
 export default function KnowledgeBase({ rol }) {
   const { faqs, loadingFaqs, crearFaq, actualizarFaq, eliminarFaq } = useFaqController();
@@ -58,12 +60,12 @@ export default function KnowledgeBase({ rol }) {
       <div className="card">
         <div className="card-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: 'none' }}>
           <div>
-            <span className="card-title-icon">📚</span>
+            <span className="card-title-icon"><BookOpen size={16} /></span>
             Base de Conocimientos (FAQ)
           </div>
           {isStaff && (
             <button className="btn-primary" onClick={openNewModal}>
-              + Nuevo Artículo
+              <Plus size={16} /> Nuevo Artículo
             </button>
           )}
         </div>
@@ -72,7 +74,7 @@ export default function KnowledgeBase({ rol }) {
         </p>
 
         <div className="search-wrapper" style={{ marginBottom: '2rem' }}>
-          <span className="search-icon">🔍</span>
+          <span className="search-icon"><Search size={18} /></span>
           <input
             type="text"
             className="search-input"
@@ -117,11 +119,11 @@ export default function KnowledgeBase({ rol }) {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     {isStaff && (
                       <div style={{ display: 'flex', gap: '0.5rem' }} onClick={(e) => e.stopPropagation()}>
-                        <button className="btn-icon" onClick={() => openEditModal(faq)} title="Editar" style={{ color: 'var(--text)' }}>✏️</button>
-                        <button className="btn-icon" onClick={() => handleDelete(faq.id, faq.pregunta)} title="Eliminar" style={{ color: 'var(--danger)' }}>🗑️</button>
+                        <button className="btn-icon" onClick={() => openEditModal(faq)} title="Editar" style={{ color: 'var(--text)' }}><Pencil size={16} /></button>
+                        <button className="btn-icon" onClick={() => handleDelete(faq.id, faq.pregunta)} title="Eliminar" style={{ color: 'var(--danger)' }}><Trash2 size={16} /></button>
                       </div>
                     )}
-                    <span>{abiertoId === faq.id ? '▲' : '▼'}</span>
+                    <span>{abiertoId === faq.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}</span>
                   </div>
                 </div>
                 {abiertoId === faq.id && (
@@ -140,7 +142,7 @@ export default function KnowledgeBase({ rol }) {
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px' }}>
             <div className="modal-header">
               <h2>{editingFaqId ? 'Editar Artículo' : 'Nuevo Artículo'}</h2>
-              <button className="btn-icon" onClick={() => setShowModal(false)}>✕</button>
+              <button className="btn-icon" onClick={() => setShowModal(false)}><X size={18}/></button>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

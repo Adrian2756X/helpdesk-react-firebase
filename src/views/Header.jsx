@@ -5,6 +5,9 @@
  * El selector de rol se eliminó — el rol viene determinado por la sesión.
  */
 import { useThemeController } from '../controllers/useThemeController';
+import { Target, Ticket, BookOpen, BarChart, Settings, User, Shield, PenTool, Sun, Moon, LogOut, PlusCircle } from 'lucide-react';
+
+
 
 export default function Header({ session, onLogout, activeTab, onTabChange }) {
   const { theme, toggleTheme } = useThemeController();
@@ -14,16 +17,38 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
       <div className="header-inner">
         {/* Brand */}
         <div className="header-brand">
-          <div className="brand-icon">🎯</div>
+          <div className="brand-icon">
+            <Target size={22} />
+          </div>
           <div>
             <div className="brand-title">Portal de Soporte TI</div>
-            <div className="brand-subtitle">Gestión de Incidentes, Solicitudes y Cambios</div>
           </div>
         </div>
 
         {/* Tabs / Navegación */}
         {onTabChange && (
           <div style={{ display: 'flex', gap: '1rem', marginRight: 'auto', marginLeft: '2rem', flex: 1 }}>
+            {(session.rol === 'usuario' || session.rol === 'admin') && (
+              <button 
+                onClick={() => onTabChange('nuevo_ticket')}
+                style={{ 
+                  fontWeight: activeTab === 'nuevo_ticket' ? 'bold' : 'normal', 
+                  fontSize: '0.95rem', 
+                  background: activeTab === 'nuevo_ticket' ? 'var(--surface-2)' : 'transparent', 
+                  color: 'var(--text)', 
+                  padding: '0.5rem 1rem', 
+                  borderRadius: '8px',
+                  border: '1px solid ' + (activeTab === 'nuevo_ticket' ? 'var(--border)' : 'transparent'),
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'all 0.2s'
+                }}
+              >
+                <PlusCircle size={18} /> Nuevo Ticket
+              </button>
+            )}
             <button 
               onClick={() => onTabChange('tickets')}
               style={{ 
@@ -41,7 +66,7 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
                 transition: 'all 0.2s'
               }}
             >
-              🎫 Tickets
+              <Ticket size={18} /> {session.rol === 'usuario' ? 'Mis Tickets' : 'Tickets'}
             </button>
             <button 
               onClick={() => onTabChange('faq')}
@@ -60,7 +85,7 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
                 transition: 'all 0.2s'
               }}
             >
-              📚 Base de Conocimiento
+              <BookOpen size={18} /> Base de Conocimiento
             </button>
             {session.rol === 'tecnico' || session.rol === 'admin' ? (
               <button 
@@ -80,7 +105,7 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
                   transition: 'all 0.2s'
                 }}
               >
-                📊 Reportes
+                <BarChart size={18} /> Reportes
               </button>
             ) : null}
             {session.rol === 'admin' && (
@@ -101,7 +126,7 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
                   transition: 'all 0.2s'
                 }}
               >
-                ⚙️ Usuarios
+                <Settings size={18} /> Usuarios
               </button>
             )}
           </div>
@@ -111,11 +136,13 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
         <div className="header-controls">
           {/* Info del usuario logueado */}
           <div className="header-user">
-            <span className="header-user-avatar">{session.avatar}</span>
+            <span className="header-user-avatar">
+              <User size={20} color="var(--primary)" />
+            </span>
             <div className="header-user-info">
               <span className="header-user-name">{session.nombre}</span>
-              <span className="header-user-role">
-                {session.rol === 'admin' ? '🛡️ Admin' : (session.rol === 'tecnico' ? '🛠️ Soporte TI' : '👤 Usuario')}
+              <span className="header-user-role" style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                {session.rol === 'admin' ? <><Shield size={12}/> Admin</> : (session.rol === 'tecnico' ? <><PenTool size={12}/> Soporte TI</> : <><User size={12}/> Usuario</>)}
               </span>
             </div>
           </div>
@@ -127,7 +154,7 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
             onClick={toggleTheme}
             title="Cambiar tema"
           >
-            {theme === 'dark' ? '☀️' : '🌙'}
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
           {/* Cerrar sesión */}
@@ -137,7 +164,7 @@ export default function Header({ session, onLogout, activeTab, onTabChange }) {
             onClick={onLogout}
             title="Cerrar sesión"
           >
-            ↩ Salir
+            <LogOut size={16} /> Salir
           </button>
         </div>
       </div>
